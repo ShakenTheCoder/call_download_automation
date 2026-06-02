@@ -119,7 +119,13 @@ def main():
         existing = cfg["coords"].get(key)
         if existing:
             print(f"\n[i] '{key}' is already set to {existing}.")
-            if input("    Re-calibrate it? [y/N]: ").strip().lower() != "y":
+            answer = input("    Re-calibrate it? [y/N]: ").strip().lower()
+            if answer != "y":
+                continue
+        else:
+            print(f"\n[i] '{key}' is NOT set yet.")
+            answer = input("    Calibrate it now? [Y/n]: ").strip().lower()
+            if answer == "n":
                 continue
         result = capture(desc, hint)
         if result is not None:
