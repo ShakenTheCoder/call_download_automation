@@ -30,12 +30,12 @@ Descarcă apelurile în loturi de **20**, până la **1500** de apeluri (75 de l
 | --- | --- |
 | Selectarea a 20 de apeluri | **Tastatură** — click pe primul rând, apoi `Shift + Down` ×19 |
 | Trecerea la următoarele 20 | **Tastatură** — `Down` o dată, apoi `Shift + Down` ×19 (derulează automat) |
-| Deschiderea meniului click-dreapta | **Tastatură** — `Shift + F10` |
-| Alegerea „Save Calls” (al 4-lea element) | **Tastatură** — `Down` ×4 + `Enter` |
-| Setarea câmpului Location | **Mouse** (calibrat) + tastare |
+| Deschiderea meniului click-dreapta | **Mouse** (automat) — click-dreapta pe primul rând din selecție |
+| Alegerea „Save Calls” | **Mouse** (calibrat) — click direct pe coordonata salvată |
+| Setarea câmpului Location | **Mouse** (calibrat) + tastare (pentru **fiecare lot**) |
 | Alegerea „WAV - Voice only” | **Mouse** (calibrat) |
 | Apăsarea „Save” | **Mouse** (calibrat) |
-| Așteptare ~32s, apoi „Close” | pauză temporizată + `Enter` (sau click „Close” calibrat) |
+| Așteptare ~32s, apoi „Close” | pauză temporizată + click „Close” calibrat (sau tasta `Enter`) |
 
 ---
 
@@ -73,17 +73,17 @@ Deschide fereastra NICE pe VM (vizibilă pe ecranul local), apoi rulează:
 python kb_calibrate.py
 ```
 
-Treci cu mouse-ul peste fiecare element și apasă **ENTER** pentru a-l înregistra:
+Treci cu mouse-ul peste fiecare element și apasă tasta **[F9]** de pe tastatură pentru a-l înregistra (vei auzi un sunet scurt de Beep ca confirmare):
 
 1. `first_row` — primul rând de apel din grilă
-2. `location_field` — câmpul „Location” din dialogul Save Calls
-3. `wav_radio` — butonul radio **WAV - Voice only**
-4. `save_button` — butonul **Save**
-5. `close_button` — butonul **Close** din dialogul *Done* *(opțional — dacă îl
-   sari, scriptul apasă `Enter` pentru a închide)*
+2. `save_calls_menu_item` — opțiunea **Save Calls** din meniul context (fă click-dreapta manual pe un rând ca să deschizi meniul, apoi hover pe Save Calls și apasă F9)
+3. `location_field` — câmpul „Location” din dialogul Save Calls (deschide dialogul, hover pe căsuța text și apasă F9)
+4. `wav_radio` — butonul radio **WAV - Voice only**
+5. `save_button` — butonul albastru **Save**
+6. `close_button` — butonul **Close** din dialogul de finalizare *Done* *(opțional — dacă îl sari apăsând ESC, scriptul va folosi tasta `Enter` pentru a închide)*
 
 > Pentru a calibra elementele din dialog, deschide-l o dată manual:
-> selectează un rând → `Shift+F10` (sau click-dreapta) → **Save Calls**.
+> selectează un rând → click-dreapta → **Save Calls**.
 
 Coordonatele se salvează automat în `kb_config.json`.
 
