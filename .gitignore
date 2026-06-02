@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+kb_session.json
+.DS_Store
+.vscode/
+venv/

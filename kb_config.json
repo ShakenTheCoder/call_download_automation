@@ -1,0 +1,40 @@
+{
+  "batch": {
+    "rows_per_batch": 20,
+    "total_calls": 1500
+  },
+  "download": {
+    "location_path": "",
+    "format": "wav"
+  },
+  "keys": {
+    "open_context_menu": ["shift", "f10"],
+    "save_calls_menu_index": 4,
+    "select_extend_key": "down",
+    "advance_key": "down",
+    "close_dialog_key": "enter"
+  },
+  "delays": {
+    "after_key": 0.12,
+    "after_select": 0.6,
+    "context_menu_load": 0.9,
+    "dialog_load": 1.8,
+    "after_field_click": 0.4,
+    "after_type": 0.4
+  },
+  "timeouts": {
+    "save_complete_wait": 32.0,
+    "dialog_appear": 10.0
+  },
+  "coords": {
+    "first_row": null,
+    "location_field": null,
+    "wav_radio": null,
+    "save_button": null,
+    "close_button": null
+  },
+  "window_activation": {
+    "enable": true,
+    "title_contains": "NICE"
+  }
+}
