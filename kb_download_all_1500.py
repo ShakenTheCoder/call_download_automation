@@ -102,10 +102,10 @@ def main():
 
         activate_window()
         # The first batch of THIS run re-focuses the first visible row; the rest
-        # advance with Down to scroll exactly 20 rows. Location only set once.
+        # advance with Down to scroll exactly 20 rows. Set location is True for all batches.
         is_first = (batch_num == start_batch)
         ok = do_batch(num_rows=rows, is_first_selection=is_first,
-                      location_path=location, set_location=is_first)
+                      location_path=location, set_location=True)
 
         if not ok:
             print(f"\n[-] Batch {batch_num} failed.")

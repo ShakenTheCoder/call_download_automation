@@ -172,7 +172,7 @@ def coords_ready(required):
 # Shared WORKFLOW steps (used by every download script)
 # ---------------------------------------------------------------------------
 # Coordinates that MUST be calibrated before any download can run.
-REQUIRED_COORDS = ["first_row", "location_field", "wav_radio", "save_button"]
+REQUIRED_COORDS = ["first_row", "save_calls_menu_item", "location_field", "wav_radio", "save_button"]
 
 
 def resolve_location():
@@ -210,16 +210,24 @@ def select_rows(num_rows, is_first_selection):
 
 
 def open_save_calls_menu():
-    """Open the right-click context menu (Shift+F10) and choose 'Save Calls'."""
+    """Right-click the selected batch and click the calibrated 'Save Calls' menu item."""
     delays = CONFIG.get("delays", {})
-    menu_combo = CONFIG["keys"]["open_context_menu"]
-    hotkey(*menu_combo, desc="Open context menu")
+    coord = get_coord("first_row")
+    if coord is None:
+        print("[-] Error: first_row is not calibrated.")
+        return False
+
+    print("[*] Right-clicking on the selected batch...")
+    pyautogui.moveTo(coord[0], coord[1], duration=0.3)
+    pyautogui.rightClick()
     time.sleep(delays.get("context_menu_load", 0.9))
 
-    index = CONFIG["keys"]["save_calls_menu_index"]  # 4 -> "Save Calls"
-    press("down", index, desc=f"Move to menu item #{index}")
-    press("enter", 1, desc="Select 'Save Calls'")
+    print("[*] Clicking the 'Save Calls' menu item...")
+    if not click_coord("save_calls_menu_item", "Save Calls menu item"):
+        return False
+
     time.sleep(delays.get("dialog_load", 1.8))
+    return True
 
 
 def fill_dialog(location_path, set_location=True):

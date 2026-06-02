@@ -34,8 +34,10 @@ else:
 STEPS = [
     ("first_row", "FIRST call row in the grid",
      "Make sure the NICE results grid is visible. Hover over the first call row."),
+    ("save_calls_menu_item", "'Save Calls' option in right-click context menu",
+     "Right-click a row manually to show the context menu. Hover over 'Save Calls'."),
     ("location_field", "'Location' text field in Save Calls dialog",
-     "Open the Save Calls dialog once (select a row -> right-click -> Save Calls)."),
+     "Open the Save Calls dialog (Right-click -> Save Calls). Hover over the Location text box."),
     ("wav_radio", "'WAV - Voice only' radio button",
      "Same dialog open. Hover over the WAV - Voice only radio circle."),
     ("save_button", "'Save' button in Save Calls dialog",
@@ -69,10 +71,20 @@ def capture(description, setup_hint):
                 # Play a system beep to confirm capture
                 winsound.MessageBeep(winsound.MB_OK)
                 print(f"  [+] Captured ({x}, {y})")
+                
+                # Crucial Fix: Wait for F9 to be released to prevent rapid multi-triggering
+                while (ctypes.windll.user32.GetAsyncKeyState(0x78) & 0x8000) != 0:
+                    time.sleep(0.05)
+                
                 return [int(x), int(y)]
             # Check ESC (0x1B)
             if (ctypes.windll.user32.GetAsyncKeyState(0x1B) & 0x8000) != 0:
                 print("  [*] Skipped.")
+                
+                # Wait for ESC release
+                while (ctypes.windll.user32.GetAsyncKeyState(0x1B) & 0x8000) != 0:
+                    time.sleep(0.05)
+                    
                 return None
             time.sleep(0.05)
     else:
