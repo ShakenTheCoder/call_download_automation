@@ -32,7 +32,7 @@ Descarcă apelurile în loturi de **20**, până la **1500** de apeluri (75 de l
 | Trecerea la următoarele 20 | **Tastatură** — `Down` o dată, apoi `Shift + Down` ×19 (derulează automat) |
 | Deschiderea meniului click-dreapta | **Mouse** (automat) — click-dreapta pe primul rând din selecție |
 | Alegerea „Save Calls” | **Mouse** (calibrat) — click direct pe coordonata salvată |
-| Setarea câmpului Location | **Mouse** (calibrat) + tastare (pentru **fiecare lot**) |
+| Setarea câmpului Location | **Mouse** (calibrat) + tastare — **doar la primul lot** (NICE reține calea, iar dialogul se deschide mereu în aceeași poziție) |
 | Alegerea „WAV - Voice only” | **Mouse** (calibrat) |
 | Apăsarea „Save” | **Mouse** (calibrat) |
 | Așteptare ~32s, apoi „Close” | pauză temporizată + click „Close” calibrat (sau tasta `Enter`) |
