@@ -14,13 +14,21 @@ clicks with the mouse (because their keyboard Tab order is unknown):
   4. save_button     -> the "Save" button in the Save Calls dialog
   5. close_button    -> the "Close" button in the final "Done" dialog
 
-For each item: hover your mouse over it, then press ENTER in this terminal.
-The position is read live with pyautogui.position() and saved to kb_config.json.
+On Windows, hover your mouse over each item and press F9. The keypress is captured globally in the background, meaning you do NOT need to click back on the terminal! On other systems, the script uses a 5-second countdown.
 """
 
 import time
+import sys
 import pyautogui
 from kb_core import load_config, save_config
+
+# Background key listener for Windows using built-in ctypes
+IS_WINDOWS = sys.platform.startswith("win")
+if IS_WINDOWS:
+    import ctypes
+    import winsound
+else:
+    ctypes = None
 
 # (key in config["coords"], human description, hint on how to set up the screen)
 STEPS = [
@@ -43,22 +51,53 @@ def capture(description, setup_hint):
     print(f"  CALIBRATE: {description}")
     print("=" * 60)
     print(f"  Hint: {setup_hint}")
-    print("  -> Hover the mouse over the target, then press ENTER here.")
-    print("     (type 's' then ENTER to SKIP this item)")
-    choice = input("  Ready? [ENTER to capture / s to skip]: ").strip().lower()
-    if choice == "s":
-        print("  [*] Skipped.")
-        return None
-    x, y = pyautogui.position()
-    print(f"  [+] Captured ({x}, {y})")
-    return [int(x), int(y)]
+    
+    if IS_WINDOWS:
+        print("  --> Hover the mouse over the target, then press [F9] on your keyboard.")
+        print("      (You do NOT need to switch back to this terminal. Just press F9!)")
+        print("      * To SKIP this item, press [ESC] instead.")
+        print("      Waiting for your keypress...")
+        
+        # Flush key state before waiting
+        ctypes.windll.user32.GetAsyncKeyState(0x78) # F9
+        ctypes.windll.user32.GetAsyncKeyState(0x1B) # ESC
+        
+        while True:
+            # Check F9 (0x78)
+            if (ctypes.windll.user32.GetAsyncKeyState(0x78) & 0x8000) != 0:
+                x, y = pyautogui.position()
+                # Play a system beep to confirm capture
+                winsound.MessageBeep(winsound.MB_OK)
+                print(f"  [+] Captured ({x}, {y})")
+                return [int(x), int(y)]
+            # Check ESC (0x1B)
+            if (ctypes.windll.user32.GetAsyncKeyState(0x1B) & 0x8000) != 0:
+                print("  [*] Skipped.")
+                return None
+            time.sleep(0.05)
+    else:
+        # Non-Windows countdown fallback (robust, no focus needed)
+        print("  --> Hover the mouse over the target.")
+        print("      Capturing automatically in 5 seconds (no focus switch needed)...")
+        for i in range(5, 0, -1):
+            print(f"      {i}...")
+            time.sleep(1.0)
+        x, y = pyautogui.position()
+        print("\a") # System beep on Mac/Linux
+        print(f"  [+] Captured ({x}, {y})")
+        return [int(x), int(y)]
 
 
 def main():
     print("##############################################")
     print("   Hybrid Keyboard Automation - CALIBRATION   ")
     print("##############################################")
-    print("\nYou will hover over a few screen elements and press ENTER to record them.")
+    print("\nYou will hover over a few screen elements and capture their position.")
+    if IS_WINDOWS:
+        print("On Windows, just hover your mouse on the target and press F9.")
+        print("There is NO need to switch back to this terminal!")
+    else:
+        print("On Mac/Linux, the script will countdown from 5 seconds for each item.")
     print("Tip: keep this terminal and the NICE/VM window both visible.\n")
 
     cfg = load_config()
